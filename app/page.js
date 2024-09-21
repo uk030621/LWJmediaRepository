@@ -148,8 +148,8 @@ export default function Home() {
             className='uk-pic'
             src={imageUrls[imageIndex]} // Use the sequential image
             alt="Portfolio Image"
-            width={500}
-            height={500}
+            width={400}
+            height={400}
             priority={true}
             style={{ marginLeft: '5px', marginRight: '5px', marginBottom: '15px', borderRadius: '10px', border: '3px solid black' }}
           />
