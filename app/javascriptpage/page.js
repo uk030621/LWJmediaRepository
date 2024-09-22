@@ -16,34 +16,17 @@ export default function Home() {
 
   // List of images for sequential selection
   const imageUrls = [
-    {url:'/Built-in Optimisations.png', link:'https://nextjs.org/docs/app/building-your-application/optimizing/images'},
-    {url:'/Data Fetching.png', link:'https://nextjs.org/docs/app/building-your-application/data-fetching'},
-    {url:'/Server Actions.png', link:'https://nextjs.org/docs/app/building-your-application/data-fetching/forms-and-mutations'},
-    {url:'/Advanced Routing and Nested Layouts.png', link:'https://nextjs.org/docs/app/building-your-application/routing'},
-    {url:'/Dynamic HTML Streaming.png', link:'https://nextjs.org/docs/app/building-your-application/routing/loading-ui-and-streaming'},
-    {url:'/CSS Support.png', link:'https://nextjs.org/docs/app/building-your-application/styling'},
-    {url:'/Route Handlers.png', link:'https://nextjs.org/docs/app/building-your-application/routing/router-handlers'},
-    {url:'/Middleware.png', link:'https://nextjs.org/docs/app/building-your-application/routing/middleware'},
-    {url:'/React Server Components.png', link:'https://nextjs.org/docs/getting-started/react-essentials'},
-    {url:'/Client Server Rendering.png', link:'https://nextjs.org/docs/app/building-your-application/rendering'},
-    {url:'/Next_js 14.png', link:'https://nextjs.org/blog/next-14'},
+    {url: '/JavaScriptImage.jpg', link:'https://en.wikipedia.org/wiki/JavaScript'},
+    //{url: '/Data Fetching.png', link:'https://nextjs.org/docs/app/building-your-application/data-fetching'},
+    //{url:'/Server Actions.png', link:'https://nextjs.org/docs/app/building-your-application/data-fetching/forms-and-mutations'},
+    // '/jakeymoo.JPG',
   ];
 
   // Define size mapping for each image
   const imageSizes = {
-    '/Built-in Optimisations.png': { width: 350, height: 350 },
-    '/Data Fetching.png': { width: 350, height: 110 },
-    '/Server Actions.png': { width: 350, height: 110 },
-    '/Advanced Routing and Nested Layouts.png': { width: 350, height: 110 },
-    '/Dynamic HTML Streaming.png': { width: 350, height: 350 },
-    '/CSS Support.png': { width: 350, height: 110 },
-    '/Route Handlers.png': { width: 350, height: 110 },
-    '/Middleware.png': { width: 350, height: 150 },
-    '/React Server Components.png': { width: 350, height: 350 },
-    '/Client Server Rendering.png': { width: 350, height: 110 },
-    '/Next_js 14.png': { width: 350, height: 250 },
-
-
+    '/JavaScriptImage.jpg': { width: 350, height: 350 },
+    //'/Data Fetching.png': { width: 350, height: 110 },
+    //'/Server Actions.png': { width: 350, height: 110 },
     // Add other images and their dimensions if needed
   };
 
@@ -76,7 +59,7 @@ export default function Home() {
   };
 
   const fetchUrls = async () => {
-    const res = await fetch('/api/urls');
+    const res = await fetch('/api/urljavascript');
     const data = await res.json();
     setStoredUrls(data.urls);
     setFilteredUrls(data.urls); // Initialize filteredUrls with the full list
@@ -99,7 +82,7 @@ export default function Home() {
       return;
     }
 
-    const res = await fetch('/api/urls', {
+    const res = await fetch('/api/urljavascript', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ url, title }),
@@ -114,7 +97,7 @@ export default function Home() {
   };
 
   const handleDelete = async (id) => {
-    const res = await fetch('/api/urls', {
+    const res = await fetch('/api/urljavascript', {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id }),
@@ -203,10 +186,10 @@ export default function Home() {
             <Link href='/reactpage'><span className='link'>React</span></Link> {/* Added href */}
         </p>
       </div>
-      <h2 style={styles.title}>LWJ&apos;s <span style={{fontSize:'1.7rem', color:'black'}}>Next.js</span> Media Repository</h2>
+      <h2 style={styles.title}>LWJ&apos;s <span style={{fontSize:'1.7rem', color:'black'}}>JavaScript</span> Media Repository</h2>
       <details onToggle={handleToggle} style={{ textAlign: 'left', marginBottom: '10px' }}>
         <summary style={{ color: 'black', cursor: 'pointer', fontSize: '1.2rem', fontFamily: 'arial', fontSize: '0.7rem' }}>
-          Next.js 🖥️
+          JavaScript 🖥️
         </summary>
         <div style={{ marginLeft: '0px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           {/* Link to the URL associated with the current image */}

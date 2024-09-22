@@ -16,17 +16,17 @@ export default function Home() {
 
   // List of images for sequential selection
   const imageUrls = [
-    {url: '/Built-in Optimisations.png', link:'https://nextjs.org/docs/app/building-your-application/optimizing/images'},
-    {url: '/Data Fetching.png', link:'https://nextjs.org/docs/app/building-your-application/data-fetching'},
-    {url:'/Server Actions.png', link:'https://nextjs.org/docs/app/building-your-application/data-fetching/forms-and-mutations'},
+    {url: '/htmlimage.png', link:'https://en.wikipedia.org/wiki/HTML'},
+    //{url: '/Data Fetching.png', link:'https://nextjs.org/docs/app/building-your-application/data-fetching'},
+    //{url:'/Server Actions.png', link:'https://nextjs.org/docs/app/building-your-application/data-fetching/forms-and-mutations'},
     // '/jakeymoo.JPG',
   ];
 
   // Define size mapping for each image
   const imageSizes = {
-    '/Built-in Optimisations.png': { width: 350, height: 350 },
-    '/Data Fetching.png': { width: 350, height: 110 },
-    '/Server Actions.png': { width: 350, height: 110 },
+    '/html.png': { width: 350, height: 350 },
+    //'/Data Fetching.png': { width: 350, height: 110 },
+    //'/Server Actions.png': { width: 350, height: 110 },
     // Add other images and their dimensions if needed
   };
 
@@ -177,16 +177,16 @@ export default function Home() {
 
   return (
     <div style={styles.container}>
-      <div style={{marginTop:'10px', marginBottom:'20px', fontWeight:'lighter'}}>
+      <div style={{ marginTop: '10px', marginBottom: '20px', fontWeight: 'lighter' }}>
         <p>
-          <Link href='/'><span style={{marginRight:'15px', color:'green'}}>Next.js</span></Link>
-          <Link href='/htmlpage'><span style={{marginRight:'15px', color:'blue'}}>HTML</span></Link>
-          <span style={{marginRight:'15px', color:'red'}}>CSS</span>
-          <span style={{marginRight:'15px', color:'brown'}}>javaScript</span>
-          <span style={{marginRight:'15px', color:'orange'}}>React</span>
+            <Link href='/'><span className='link'>Next.js</span></Link>
+            <Link href='/htmlpage'><span className='link'>HTML</span></Link>
+            <Link href='/csspage'><span className='link'>CSS</span></Link>
+            <Link href='/javascriptpage'><span className='link'>JavaScript</span></Link> {/* Added href */}
+            <Link href='/reactpage'><span className='link'>React</span></Link> {/* Added href */}
         </p>
       </div>
-      <h1 style={styles.title}>LWJ&apos;s <span style={{color:'blue'}}>HTML</span> Media Repository</h1>
+      <h2 style={styles.title}>LWJ&apos;s <span style={{fontSize:'1.7rem', color:'black'}}>HTML</span> Media Repository</h2>
       <details onToggle={handleToggle} style={{ textAlign: 'left', marginBottom: '10px' }}>
         <summary style={{ color: 'black', cursor: 'pointer', fontSize: '1.2rem', fontFamily: 'arial', fontSize: '0.7rem' }}>
           HTML 🖥️
@@ -251,9 +251,9 @@ export default function Home() {
         onChange={handleSearchChange}
         style={styles.input}
       />
-      <button className='reset-button' onClick={handleReset} style={styles.resetbutton}>Reset</button>
+      <button onClick={handleReset} style={styles.resetbutton}>Reset</button>
 
-      <div style={{marginTop:'20px'}}>
+      <div style={{marginTop:'25px'}}>
         <h2 style={styles.subtitle}>Stored Media:</h2>
         <ul style={styles.urlList}>
           {filteredUrls.map((storedUrl) => (
@@ -284,10 +284,18 @@ const styles = {
     textAlign: 'left',
   },
   title: {
-    fontSize: '24px',
+    fontSize: '1.4rem',
     marginTop:'10px',
     marginBottom: '10px',
-    textAlign:'left'
+    textAlign:'left',
+    color:'grey',
+  },
+  subtitle: {
+    fontSize: '1.4rem',
+    marginTop:'10px',
+    marginBottom: '10px',
+    textAlign:'left',
+    color:'grey',
   },
   form: {
     display: 'flex',
@@ -311,16 +319,14 @@ const styles = {
     borderRadius: '4px',
     cursor: 'pointer',
   },
-
   resetbutton:{
     padding: '10px 20px',
-    backgroundColor: '#008000',
+    backgroundColor: 'black',
     color: '#fff',
     border: 'none',
     borderRadius: '4px',
     cursor: 'pointer',
   },
-  
   image: {
     width: '100%',
     maxHeight: '400px',
@@ -383,6 +389,13 @@ const styles = {
     color: 'red',
     fontSize: '14px',
     marginBottom: '10px',
+  },
+  links: {
+    color: 'grey',
+    fontSize: '1rem',
+    marginTop:'10',
+    marginBottom: '15px',
+    marginRight:'10px',
   },
 };
 

@@ -7,7 +7,19 @@
   background-color: rgb(255, 247, 192);
 }
 
+.link{
+  color: grey;
+    font-size: 1rem;
+    margin-top:10px;
+    margin-bottom: 15px;
+    margin-right:10px;
+    transition: 0.4s;
+}
 
+.link:hover{
+  color: black;
+  font-size: 1.3rem;
+}
 
 @media (prefers-color-scheme: dark) {
   :root {
