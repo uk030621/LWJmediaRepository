@@ -10,14 +10,29 @@ export default function Home() {
   const [storedUrls, setStoredUrls] = useState([]);
   const [error, setError] = useState('');
   const [imageIndex, setImageIndex] = useState(0); // Start with the first image
+  const [searchTerm, setSearchTerm] = useState(''); // Search term state for filtering
+  const [filteredUrls, setFilteredUrls] = useState([]); // To store filtered media items
 
- // List of images for random selection
- const imageUrls = [
-  '/image1.jpg', // Add more images to this array as needed
-  '/image2.jpg',
-  //'/rugbyplayer.JPG',
-  //'/jakeymoo.JPG'//
+  // List of images for sequential selection
+  const imageUrls = [
+    {url: '/Built-in Optimisations.png', link:'https://nextjs.org/docs/app/building-your-application/optimizing/images'},
+    {url: '/Data Fetching.png', link:'https://nextjs.org/docs/app/building-your-application/data-fetching'},
+    {url:'/Server Actions.png', link:'https://nextjs.org/docs/app/building-your-application/data-fetching/forms-and-mutations'},
+    // '/jakeymoo.JPG',
   ];
+
+  // Define size mapping for each image
+  const imageSizes = {
+    '/Built-in Optimisations.png': { width: 350, height: 350 },
+    '/Data Fetching.png': { width: 350, height: 110 },
+    '/Server Actions.png': { width: 350, height: 110 },
+    // Add other images and their dimensions if needed
+  };
+
+  // Function to get image size based on the image name
+  const getImageSize = (imageName) => {
+    return imageSizes[imageName] || { width: 100, height: 100 }; // Default size if not found
+  };
 
   // Function to select the next image sequentially
   const selectNextImage = () => {
@@ -30,7 +45,6 @@ export default function Home() {
       selectNextImage(); // Select the next sequential image when expanded
     }
   };
-
 
   const getContentType = (url) => {
     const extension = url.split('.').pop().toLowerCase();
@@ -47,6 +61,7 @@ export default function Home() {
     const res = await fetch('/api/urls');
     const data = await res.json();
     setStoredUrls(data.urls);
+    setFilteredUrls(data.urls); // Initialize filteredUrls with the full list
   };
 
   useEffect(() => {
@@ -108,10 +123,10 @@ export default function Home() {
     switch (contentType) {
       case 'image':
         return (
-          <img 
-            src={storedUrl.url} 
-            alt={storedUrl.title} 
-            style={styles.previewImage} 
+          <img
+            src={storedUrl.url}
+            alt={storedUrl.title}
+            style={styles.previewImage}
             onClick={() => handleImageClick(storedUrl)} // Clickable for images
           />
         );
@@ -134,25 +149,57 @@ export default function Home() {
           </div>
         );
     }
-  }; 
+  };
+
+  // Handle search input change
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  // Filter the storedUrls based on search term
+  useEffect(() => {
+    if (searchTerm === '') {
+      setFilteredUrls(storedUrls); // Reset to full list when search is empty
+    } else {
+      const filtered = storedUrls.filter((storedUrl) =>
+        storedUrl.title.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredUrls(filtered); // Set filtered URLs
+    }
+  }, [searchTerm, storedUrls]);
+
+  // Handle reset search
+  const handleReset = () => {
+    setSearchTerm(''); // Clear search input
+    setFilteredUrls(storedUrls); // Reset to full list
+  };
 
   return (
     <div style={styles.container}>
       <h1 style={styles.title}>LWJ&apos;s Media Repository</h1>
       <details onToggle={handleToggle} style={{ textAlign: 'left', marginBottom: '10px' }}>
         <summary style={{ color: 'black', cursor: 'pointer', fontSize: '1.2rem', fontFamily: 'arial', fontSize: '0.7rem' }}>
-          Nature ❤️
+          Next.js 🖥️
         </summary>
         <div style={{ marginLeft: '0px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <Image
-            className='uk-pic'
-            src={imageUrls[imageIndex]} // Use the sequential image
-            alt="Portfolio Image"
-            width={300}
-            height={300}
-            priority={true}
-            style={{ marginLeft: '5px', marginRight: '5px', marginBottom: '15px', borderRadius: '10px', border: '3px solid black' }}
-          />
+          {/* Link to the URL associated with the current image */}
+          <a href={imageUrls[imageIndex].link} target="_blank" rel="noopener noreferrer">
+            <Image
+              className='uk-pic'
+              src={imageUrls[imageIndex].url} // Use the sequential image URL
+              alt="Portfolio Image"
+              width={getImageSize(imageUrls[imageIndex].url).width} // Dynamically set width
+              height={getImageSize(imageUrls[imageIndex].url).height} // Dynamically set height
+              priority={true}
+              style={{
+                marginLeft: '5px',
+                marginRight: '5px',
+                marginBottom: '15px',
+                borderRadius: '10px',
+                border: '2px solid black',
+              }}
+            />
+          </a>
         </div>
       </details>
 
@@ -181,35 +228,43 @@ export default function Home() {
         />
         {error && <p style={styles.error}>{error}</p>}
 
-         {/* Add this wrapper div */}
         <div style={{ display: 'flex', justifyContent: 'flex-start', width: '100%' }}>
           <button type="submit" style={styles.button}>Add Media</button>
         </div>
       </form>
 
-      <div>
-  <h2 style={styles.subtitle}>Stored Media:</h2>
-  <ul style={styles.urlList}>
-    {storedUrls.map((storedUrl) => (
-      <li key={storedUrl._id} style={styles.urlItem}>
-        <div style={styles.previewContainer}>
-          {renderPreview(storedUrl)}
-          <button
-            onClick={() => handleDelete(storedUrl._id)}
-            style={styles.deleteButton}
-          >
-            Delete
-          </button>
-        </div>
-      </li>
-    ))}
-  </ul>
-</div>
+      {/* Search functionality */}
+      <input className='search-input'
+        type="text"
+        placeholder="Search by title..."
+        value={searchTerm}
+        onChange={handleSearchChange}
+        style={styles.input}
+      />
+      <button className='reset-button' onClick={handleReset} style={styles.resetbutton}>Reset</button>
 
-
+      <div style={{marginTop:'20px'}}>
+        <h2 style={styles.subtitle}>Stored Media:</h2>
+        <ul style={styles.urlList}>
+          {filteredUrls.map((storedUrl) => (
+            <li key={storedUrl._id} style={styles.urlItem}>
+              <div style={styles.previewContainer}>
+                {renderPreview(storedUrl)}
+                <button
+                  onClick={() => handleDelete(storedUrl._id)}
+                  style={styles.deleteButton}
+                >
+                  Delete
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
+
 
 const styles = {
   container: {
@@ -246,6 +301,16 @@ const styles = {
     borderRadius: '4px',
     cursor: 'pointer',
   },
+
+  resetbutton:{
+    padding: '10px 20px',
+    backgroundColor: '#008000',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+  },
+  
   image: {
     width: '100%',
     maxHeight: '400px',
