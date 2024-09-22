@@ -59,7 +59,7 @@ export default function Home() {
   };
 
   const fetchUrls = async () => {
-    const res = await fetch('/api/urls');
+    const res = await fetch('/api/urlhtml');
     const data = await res.json();
     setStoredUrls(data.urls);
     setFilteredUrls(data.urls); // Initialize filteredUrls with the full list
@@ -82,7 +82,7 @@ export default function Home() {
       return;
     }
 
-    const res = await fetch('/api/urls', {
+    const res = await fetch('/api/urlhtml', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ url, title }),
@@ -97,7 +97,7 @@ export default function Home() {
   };
 
   const handleDelete = async (id) => {
-    const res = await fetch('/api/urls', {
+    const res = await fetch('/api/urlhtml', {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id }),
@@ -179,17 +179,17 @@ export default function Home() {
     <div style={styles.container}>
       <div style={{marginTop:'10px', marginBottom:'20px', fontWeight:'lighter'}}>
         <p>
-          <Link href = '/'><span style={{marginRight:'15px', color:'green'}}>Next.js</span></Link>
-          <Link href = '/htmlpage'><span style={{marginRight:'15px', color:'blue'}}>HTML</span></Link>
+          <Link href='/'><span style={{marginRight:'15px', color:'green'}}>Next.js</span></Link>
+          <Link href='/htmlpage'><span style={{marginRight:'15px', color:'blue'}}>HTML</span></Link>
           <span style={{marginRight:'15px', color:'red'}}>CSS</span>
           <span style={{marginRight:'15px', color:'brown'}}>javaScript</span>
           <span style={{marginRight:'15px', color:'orange'}}>React</span>
         </p>
       </div>
-      <h1 style={styles.title}>LWJ&apos;s <span style={{color:'green'}}>Next.js</span> Media Repository</h1>
+      <h1 style={styles.title}>LWJ&apos;s <span style={{color:'blue'}}>HTML</span> Media Repository</h1>
       <details onToggle={handleToggle} style={{ textAlign: 'left', marginBottom: '10px' }}>
         <summary style={{ color: 'black', cursor: 'pointer', fontSize: '1.2rem', fontFamily: 'arial', fontSize: '0.7rem' }}>
-          Next.js 🖥️
+          HTML 🖥️
         </summary>
         <div style={{ marginLeft: '0px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           {/* Link to the URL associated with the current image */}
