@@ -124,7 +124,7 @@ export default function Home() {
     switch (contentType) {
       case 'image':
         return (
-          <img
+          <Image
             src={storedUrl.url}
             alt={storedUrl.title}
             style={styles.previewImage}
@@ -186,9 +186,9 @@ export default function Home() {
             <Link href='/reactpage'><span className='link'>React</span></Link> {/* Added href */}
         </p>
       </div>
-      <h2 style={styles.title}>LWJ&apos;s <span style={{fontSize:'1.7rem', color:'black'}}>React</span> Media Repository</h2>
+      <h2 style={styles.title}>LWJ&apos;s <span style={{fontSize:'1.7rem', color:'grey'}}>React</span> Media Repository</h2>
       <details onToggle={handleToggle} style={{ textAlign: 'left', marginBottom: '10px' }}>
-        <summary style={{ color: 'black', cursor: 'pointer', fontSize: '1.2rem', fontFamily: 'arial', fontSize: '0.7rem' }}>
+        <summary style={{ color: 'grey', cursor: 'pointer', fontFamily: 'arial', fontSize: '1rem' }}>
           React 🖥️
         </summary>
         <div style={{ marginLeft: '0px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -214,7 +214,7 @@ export default function Home() {
       </details>
 
       {displayedImageUrl && (
-        <img
+        <Image
           src={displayedImageUrl}
           alt="Displayed Media"
           style={styles.image}
@@ -322,7 +322,7 @@ const styles = {
 
   resetbutton:{
     padding: '10px 20px',
-    backgroundColor: 'black',
+    backgroundColor: '#0070f3',
     color: '#fff',
     border: 'none',
     borderRadius: '4px',
