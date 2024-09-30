@@ -201,9 +201,10 @@ export default function Home() {
             <Link href='/csspage'><span className='link'>CSS</span></Link>
             <Link href='/javascriptpage'><span className='link'>JavaScript</span></Link> {/* Added href */}
             <Link href='/reactpage'><span className='link'>React</span></Link> {/* Added href */}
+            <Link href='/miscpage'><span className='link'>General</span></Link> {/* Added href */}
         </p>
       </div>
-      <h2 style={styles.title}>LWJ&apos;s <span style={{fontSize:'1.7rem', color:'grey'}}>Next.js</span> Media Repository</h2>
+      <h2 style={styles.title}>LWJ&apos;s <span style={{fontSize:'1.3rem', color:'grey'}}>Next.js</span> Media Repository</h2>
       <details onToggle={handleToggle} style={{ textAlign: 'left', marginBottom: '10px' }}>
         <summary style={{ color: 'grey', cursor: 'pointer', fontSize: '1.2rem', fontFamily: 'arial', fontSize: '1rem' }}>
           Next.js 🖥️
@@ -301,14 +302,14 @@ const styles = {
     textAlign: 'left',
   },
   title: {
-    fontSize: '1.4rem',
+    fontSize: '1rem',
     marginTop:'10px',
     marginBottom: '10px',
     textAlign:'left',
     color:'grey',
   },
   subtitle: {
-    fontSize: '1.4rem',
+    fontSize: '1rem',
     marginTop:'10px',
     marginBottom: '10px',
     textAlign:'left',

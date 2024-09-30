@@ -16,7 +16,7 @@ export default function Home() {
 
   // List of images for sequential selection
   const imageUrls = [
-    {url: '/JavaScriptImage.jpg', link:'https://en.wikipedia.org/wiki/JavaScript'},
+    {url: '/tswift.jpg', link:'https://www.bing.com/images/search?form=IARRSM&q=taylor+swift&first=1'},
     //{url: '/Data Fetching.png', link:'https://nextjs.org/docs/app/building-your-application/data-fetching'},
     //{url:'/Server Actions.png', link:'https://nextjs.org/docs/app/building-your-application/data-fetching/forms-and-mutations'},
     // '/jakeymoo.JPG',
@@ -24,7 +24,7 @@ export default function Home() {
 
   // Define size mapping for each image
   const imageSizes = {
-    '/JavaScriptImage.jpg': { width: 350, height: 350 },
+    '/tswift.jpg': { width: 150, height: 150 },
     //'/Data Fetching.png': { width: 350, height: 110 },
     //'/Server Actions.png': { width: 350, height: 110 },
     // Add other images and their dimensions if needed
@@ -59,7 +59,7 @@ export default function Home() {
   };
 
   const fetchUrls = async () => {
-    const res = await fetch('/api/urljavascript');
+    const res = await fetch('/api/urlmisc');
     const data = await res.json();
     setStoredUrls(data.urls);
     setFilteredUrls(data.urls); // Initialize filteredUrls with the full list
@@ -82,7 +82,7 @@ export default function Home() {
       return;
     }
 
-    const res = await fetch('/api/urljavascript', {
+    const res = await fetch('/api/urlmisc', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ url, title }),
@@ -97,7 +97,7 @@ export default function Home() {
   };
 
   const handleDelete = async (id) => {
-    const res = await fetch('/api/urljavascript', {
+    const res = await fetch('/api/urlmisc', {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id }),
@@ -187,10 +187,10 @@ export default function Home() {
             <Link href='/miscpage'><span className='link'>General</span></Link> {/* Added href */}
         </p>
       </div>
-      <h2 style={styles.title}>LWJ&apos;s <span style={{fontSize:'1.3rem', color:'grey'}}>JavaScript</span> Media Repository</h2>
+      <h2 style={styles.title}>LWJ&apos;s <span style={{fontSize:'1.3rem', color:'grey'}}>General</span> Media Repository</h2>
       <details onToggle={handleToggle} style={{ textAlign: 'left', marginBottom: '10px' }}>
         <summary style={{ color: 'grey', cursor: 'pointer', fontFamily: 'arial', fontSize: '1rem' }}>
-          JavaScript 🖥️
+          General 🖥️
         </summary>
         <div style={{ marginLeft: '0px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           {/* Link to the URL associated with the current image */}
