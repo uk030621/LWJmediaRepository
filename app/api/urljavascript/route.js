@@ -1,7 +1,7 @@
 import clientPromise from '@/lib/mongodb';
 import { ObjectId } from 'mongodb'; // Import ObjectId
 
-export async function GET(req) {
+export async function GET(_req) {
   const client = await clientPromise;
   const db = client.db();
   const urls = await db.collection('javascripturls').find({}).toArray();
