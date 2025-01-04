@@ -251,6 +251,7 @@ export default function Home() {
             rel="noopener noreferrer"
           >
             <Image
+              unoptimized
               className="uk-pic"
               src={imageUrls[imageIndex].url} // Use the sequential image URL
               alt="Portfolio Image"
@@ -271,6 +272,7 @@ export default function Home() {
 
       {displayedImageUrl && (
         <Image
+          unoptimized
           src={displayedImageUrl}
           alt="Displayed Media"
           style={styles.image}
