@@ -1,22 +1,22 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
-  const [url, setUrl] = useState('');
-  const [title, setTitle] = useState('');
-  const [displayedImageUrl, setDisplayedImageUrl] = useState(''); // Store the currently displayed image
+  const [url, setUrl] = useState("");
+  const [title, setTitle] = useState("");
+  const [displayedImageUrl, setDisplayedImageUrl] = useState(""); // Store the currently displayed image
   const [storedUrls, setStoredUrls] = useState([]);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [imageIndex, setImageIndex] = useState(0); // Start with the first image
-  const [searchTerm, setSearchTerm] = useState(''); // Search term state for filtering
+  const [searchTerm, setSearchTerm] = useState(""); // Search term state for filtering
   const [filteredUrls, setFilteredUrls] = useState([]); // To store filtered media items
 
   // List of images for sequential selection
   const imageUrls = [
-    {url: '/htmlimage.png', link:'https://en.wikipedia.org/wiki/HTML'},
+    { url: "/htmlimage.png", link: "https://en.wikipedia.org/wiki/HTML" },
     //{url: '/Data Fetching.png', link:'https://nextjs.org/docs/app/building-your-application/data-fetching'},
     //{url:'/Server Actions.png', link:'https://nextjs.org/docs/app/building-your-application/data-fetching/forms-and-mutations'},
     // '/jakeymoo.JPG',
@@ -24,7 +24,7 @@ export default function Home() {
 
   // Define size mapping for each image
   const imageSizes = {
-    '/html.png': { width: 350, height: 350 },
+    "/html.png": { width: 350, height: 350 },
     //'/Data Fetching.png': { width: 350, height: 110 },
     //'/Server Actions.png': { width: 350, height: 110 },
     // Add other images and their dimensions if needed
@@ -48,18 +48,18 @@ export default function Home() {
   };
 
   const getContentType = (url) => {
-    const extension = url.split('.').pop().toLowerCase();
-    if (['jpg', 'jpeg', 'png', 'gif'].includes(extension)) {
-      return 'image';
-    } else if (['mp4', 'webm', 'ogg'].includes(extension)) {
-      return 'video';
+    const extension = url.split(".").pop().toLowerCase();
+    if (["jpg", "jpeg", "png", "gif"].includes(extension)) {
+      return "image";
+    } else if (["mp4", "webm", "ogg"].includes(extension)) {
+      return "video";
     } else {
-      return 'webpage';
+      return "webpage";
     }
   };
 
   const fetchUrls = async () => {
-    const res = await fetch('/api/urlhtml');
+    const res = await fetch("/api/urlhtml");
     const data = await res.json();
     setStoredUrls(data.urls);
     setFilteredUrls(data.urls); // Initialize filteredUrls with the full list
@@ -73,33 +73,33 @@ export default function Home() {
     e.preventDefault();
 
     if (!title) {
-      setError('Please enter a title.');
+      setError("Please enter a title.");
       return;
     }
 
     if (!url) {
-      setError('Please enter a URL.');
+      setError("Please enter a URL.");
       return;
     }
 
-    const res = await fetch('/api/urlhtml', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    const res = await fetch("/api/urlhtml", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ url, title }),
     });
 
     if (res.ok) {
-      setUrl('');
-      setTitle('');
-      setError('');
+      setUrl("");
+      setTitle("");
+      setError("");
       fetchUrls();
     }
   };
 
   const handleDelete = async (id) => {
-    const res = await fetch('/api/urlhtml', {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
+    const res = await fetch("/api/urlhtml", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id }),
     });
 
@@ -111,10 +111,10 @@ export default function Home() {
   const handleImageClick = (storedUrl) => {
     const contentType = getContentType(storedUrl.url);
 
-    if (contentType === 'image') {
+    if (contentType === "image") {
       setDisplayedImageUrl(storedUrl.url); // Update displayed image if it's an image
     } else {
-      setDisplayedImageUrl(''); // Clear displayed image for non-image URLs
+      setDisplayedImageUrl(""); // Clear displayed image for non-image URLs
     }
   };
 
@@ -122,16 +122,17 @@ export default function Home() {
     const contentType = getContentType(storedUrl.url);
 
     switch (contentType) {
-      case 'image':
+      case "image":
         return (
           <Image
+            unoptimized
             src={storedUrl.url}
             alt={storedUrl.title}
             style={styles.previewImage}
             onClick={() => handleImageClick(storedUrl)} // Clickable for images
           />
         );
-      case 'video':
+      case "video":
         return (
           <div style={styles.videoContainer}>
             <video controls style={styles.previewVideo}>
@@ -144,7 +145,12 @@ export default function Home() {
         return (
           <div style={styles.webpagePreview}>
             <p>{storedUrl.title}</p>
-            <a href={storedUrl.url} target="_blank" rel="noopener noreferrer" style={styles.previewLink}>
+            <a
+              href={storedUrl.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={styles.previewLink}
+            >
               Open Website
             </a>
           </div>
@@ -159,7 +165,7 @@ export default function Home() {
 
   // Filter the storedUrls based on search term
   useEffect(() => {
-    if (searchTerm === '') {
+    if (searchTerm === "") {
       setFilteredUrls(storedUrls); // Reset to full list when search is empty
     } else {
       const filtered = storedUrls.filter((storedUrl) =>
@@ -171,43 +177,89 @@ export default function Home() {
 
   // Handle reset search
   const handleReset = () => {
-    setSearchTerm(''); // Clear search input
+    setSearchTerm(""); // Clear search input
     setFilteredUrls(storedUrls); // Reset to full list
   };
 
   return (
     <div style={styles.container}>
-      <div style={{ marginTop: '10px', marginBottom: '20px', fontWeight: 'lighter' }}>
+      <div
+        style={{
+          marginTop: "10px",
+          marginBottom: "20px",
+          fontWeight: "lighter",
+        }}
+      >
         <p>
-            <Link href='/'><span className='link'>Next.js</span></Link>
-            <Link href='/htmlpage'><span className='link'>HTML</span></Link>
-            <Link href='/csspage'><span className='link'>CSS</span></Link>
-            <Link href='/javascriptpage'><span className='link'>JavaScript</span></Link> {/* Added href */}
-            <Link href='/reactpage'><span className='link'>React</span></Link> {/* Added href */}
-            <Link href='/miscpage'><span className='link'>General</span></Link> {/* Added href */}
+          <Link href="/">
+            <span className="link">Next.js</span>
+          </Link>
+          <Link href="/htmlpage">
+            <span className="link">HTML</span>
+          </Link>
+          <Link href="/csspage">
+            <span className="link">CSS</span>
+          </Link>
+          <Link href="/javascriptpage">
+            <span className="link">JavaScript</span>
+          </Link>{" "}
+          {/* Added href */}
+          <Link href="/reactpage">
+            <span className="link">React</span>
+          </Link>{" "}
+          {/* Added href */}
+          <Link href="/miscpage">
+            <span className="link">General</span>
+          </Link>{" "}
+          {/* Added href */}
         </p>
       </div>
-      <h2 style={styles.title}>LWJ&apos;s <span style={{fontSize:'1.3rem', color:'grey'}}>HTML</span> Media Repository</h2>
-      <details onToggle={handleToggle} style={{ textAlign: 'left', marginBottom: '10px' }}>
-        <summary style={{ color: 'grey', cursor: 'pointer', fontFamily: 'arial', fontSize: '1rem' }}>
+      <h2 style={styles.title}>
+        LWJ&apos;s{" "}
+        <span style={{ fontSize: "1.3rem", color: "grey" }}>HTML</span> Media
+        Repository
+      </h2>
+      <details
+        onToggle={handleToggle}
+        style={{ textAlign: "left", marginBottom: "10px" }}
+      >
+        <summary
+          style={{
+            color: "grey",
+            cursor: "pointer",
+            fontFamily: "arial",
+            fontSize: "1rem",
+          }}
+        >
           HTML 🖥️
         </summary>
-        <div style={{ marginLeft: '0px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div
+          style={{
+            marginLeft: "0px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           {/* Link to the URL associated with the current image */}
-          <a href={imageUrls[imageIndex].link} target="_blank" rel="noopener noreferrer">
+          <a
+            href={imageUrls[imageIndex].link}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <Image
-              className='uk-pic'
+              className="uk-pic"
               src={imageUrls[imageIndex].url} // Use the sequential image URL
               alt="Portfolio Image"
               width={getImageSize(imageUrls[imageIndex].url).width} // Dynamically set width
               height={getImageSize(imageUrls[imageIndex].url).height} // Dynamically set height
               priority={true}
               style={{
-                marginLeft: '5px',
-                marginRight: '5px',
-                marginBottom: '15px',
-                borderRadius: '10px',
-                border: '2px solid black',
+                marginLeft: "5px",
+                marginRight: "5px",
+                marginBottom: "15px",
+                borderRadius: "10px",
+                border: "2px solid black",
               }}
             />
           </a>
@@ -239,22 +291,33 @@ export default function Home() {
         />
         {error && <p style={styles.error}>{error}</p>}
 
-        <div style={{ display: 'flex', justifyContent: 'flex-start', width: '100%' }}>
-          <button type="submit" style={styles.button}>Add Media</button>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-start",
+            width: "100%",
+          }}
+        >
+          <button type="submit" style={styles.button}>
+            Add Media
+          </button>
         </div>
       </form>
 
       {/* Search functionality */}
-      <input className='search-input'
+      <input
+        className="search-input"
         type="text"
         placeholder="Search by title..."
         value={searchTerm}
         onChange={handleSearchChange}
         style={styles.input}
       />
-      <button onClick={handleReset} style={styles.resetbutton}>Reset</button>
+      <button onClick={handleReset} style={styles.resetbutton}>
+        Reset
+      </button>
 
-      <div style={{marginTop:'25px'}}>
+      <div style={{ marginTop: "25px" }}>
         <h2 style={styles.subtitle}>Stored Media:</h2>
         <ul style={styles.urlList}>
           {filteredUrls.map((storedUrl) => (
@@ -276,127 +339,125 @@ export default function Home() {
   );
 }
 
-
 const styles = {
   container: {
-    maxWidth: '600px',
-    margin: '0 auto',
-    padding: '0 20px',
-    textAlign: 'left',
+    maxWidth: "600px",
+    margin: "0 auto",
+    padding: "0 20px",
+    textAlign: "left",
   },
   title: {
-    fontSize: '1rem',
-    marginTop:'10px',
-    marginBottom: '10px',
-    textAlign:'left',
-    color:'grey',
+    fontSize: "1rem",
+    marginTop: "10px",
+    marginBottom: "10px",
+    textAlign: "left",
+    color: "grey",
   },
   subtitle: {
-    fontSize: '1rem',
-    marginTop:'10px',
-    marginBottom: '10px',
-    textAlign:'left',
-    color:'grey',
+    fontSize: "1rem",
+    marginTop: "10px",
+    marginBottom: "10px",
+    textAlign: "left",
+    color: "grey",
   },
   form: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    marginBottom: '20px',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    marginBottom: "20px",
   },
   input: {
-    padding: '10px',
-    width: '100%',
-    marginBottom: '10px',
-    border: '1px solid #ccc',
-    borderRadius: '4px',
-    fontSize:'17px',
+    padding: "10px",
+    width: "100%",
+    marginBottom: "10px",
+    border: "1px solid #ccc",
+    borderRadius: "4px",
+    fontSize: "17px",
   },
   button: {
-    padding: '10px 20px',
-    backgroundColor: '#0070f3',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
+    padding: "10px 20px",
+    backgroundColor: "#0070f3",
+    color: "#fff",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "pointer",
   },
-  resetbutton:{
-    padding: '10px 20px',
-    backgroundColor: '#0070f3',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
+  resetbutton: {
+    padding: "10px 20px",
+    backgroundColor: "#0070f3",
+    color: "#fff",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "pointer",
   },
   image: {
-    width: '100%',
-    maxHeight: '400px',
-    objectFit: 'contain',
-    marginBottom: '20px',
+    width: "100%",
+    maxHeight: "400px",
+    objectFit: "contain",
+    marginBottom: "20px",
   },
   previewImage: {
-    width: '100%',
-    maxHeight: '200px',
-    objectFit: 'cover',
-    borderRadius: '4px',
-    marginBottom: '10px',
-    cursor: 'pointer', // Change cursor to pointer
+    width: "100%",
+    maxHeight: "200px",
+    objectFit: "cover",
+    borderRadius: "4px",
+    marginBottom: "10px",
+    cursor: "pointer", // Change cursor to pointer
   },
   previewVideo: {
-    width: '100%',
-    maxHeight: '200px',
-    borderRadius: '4px',
-    marginBottom: '10px',
+    width: "100%",
+    maxHeight: "200px",
+    borderRadius: "4px",
+    marginBottom: "10px",
   },
   webpagePreview: {
-    padding: '10px',
-    border: '1px solid #ccc',
-    borderRadius: '4px',
-    marginBottom: '10px',
-    textAlign: 'left',
+    padding: "10px",
+    border: "1px solid #ccc",
+    borderRadius: "4px",
+    marginBottom: "10px",
+    textAlign: "left",
   },
   previewLink: {
-    color: '#0070f3',
-    textDecoration: 'none',
+    color: "#0070f3",
+    textDecoration: "none",
   },
   urlList: {
-    listStyleType: 'none',
+    listStyleType: "none",
     padding: 0,
-    marginTop: '10px',
+    marginTop: "10px",
   },
   urlItem: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: '10px 0',
-    borderBottom: '1px solid #eaeaea',
-    wordBreak: 'break-word',
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "10px 0",
+    borderBottom: "1px solid #eaeaea",
+    wordBreak: "break-word",
   },
   previewContainer: {
-    display: 'flex',
-    flexDirection: 'column', // Stack items vertically
-    alignItems: 'flex-start', // Left align items
-    marginBottom: '10px', // Space between items
+    display: "flex",
+    flexDirection: "column", // Stack items vertically
+    alignItems: "flex-start", // Left align items
+    marginBottom: "10px", // Space between items
   },
   deleteButton: {
-    padding: '5px 10px',
-    backgroundColor: 'red',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
+    padding: "5px 10px",
+    backgroundColor: "red",
+    color: "#fff",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "pointer",
   },
   error: {
-    color: 'red',
-    fontSize: '14px',
-    marginBottom: '10px',
+    color: "red",
+    fontSize: "14px",
+    marginBottom: "10px",
   },
   links: {
-    color: 'grey',
-    fontSize: '1rem',
-    marginTop:'10',
-    marginBottom: '15px',
-    marginRight:'10px',
+    color: "grey",
+    fontSize: "1rem",
+    marginTop: "10",
+    marginBottom: "15px",
+    marginRight: "10px",
   },
 };
-
